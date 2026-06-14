@@ -1,0 +1,10 @@
+{
+  "id": "rafael",
+  "slug": "rafael-tavares",
+  "name": "Rafael Tavares",
+  "firstName": "Rafael",
+  "initial": "R",
+  "role": "Engenheiro Agrônomo",
+  "bio": "Engenheiro agrônomo formado pela ESALQ, com foco em horticultura doméstica e ferramentas de jardim. Testa cada produto em condições reais — chuva, sol e raiz — antes de recomendar qualquer coisa.",
+  "specialties": ["Ferramentas", "Horta em Casa", "Adubação"]
+}

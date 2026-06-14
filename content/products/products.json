@@ -1,0 +1,56 @@
+[
+  {
+    "id": "p1",
+    "name": "Tesoura de Poda Bypass Pro 8\"",
+    "brand": "CorteFino",
+    "rating": "4,8",
+    "reviews": 2143,
+    "price": 89,
+    "tint": "#E5E2D9",
+    "tag": "Melhor geral",
+    "links": [
+      {
+        "store": "Amazon",
+        "url": "https://www.amazon.com.br/dp/EXEMPLO?tag=guiajardineiro-20",
+        "label": "Ver na Amazon",
+        "commission": 0.04,
+        "price": 89
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "name": "Kit Irrigação Gotejamento 25m",
+    "brand": "AquaVerde",
+    "rating": "4,6",
+    "price": 149,
+    "tint": "#D6E4DC",
+    "tag": "Custo-benefício",
+    "links": [
+      {
+        "store": "Amazon",
+        "url": "https://www.amazon.com.br/dp/EXEMPLO?tag=guiajardineiro-20",
+        "label": "Ver melhor preço",
+        "commission": 0.04,
+        "price": 149
+      }
+    ]
+  },
+  {
+    "id": "p6",
+    "name": "Adubo Orgânico Húmus 5kg",
+    "brand": "NutriSolo",
+    "rating": "4,9",
+    "price": 28,
+    "tint": "#E8EDD5",
+    "links": [
+      {
+        "store": "Amazon",
+        "url": "https://www.amazon.com.br/dp/EXEMPLO?tag=guiajardineiro-20",
+        "label": "Ver na Amazon",
+        "commission": 0.05,
+        "price": 28
+      }
+    ]
+  }
+]

@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Guia Jardineiro — globals
+   Only what Tailwind utilities don't cover lives here.
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fbf9f4; /* cream */
+  color: #23271f; /* ink */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Text selection in brand terracotta */
+::selection {
+  background: #c8541f;
+  color: #fff;
+}
+
+/* Article body reading rhythm (Inter 400, ~70ch line length) */
+.article-body {
+  font-size: 17.5px;
+  line-height: 1.75;
+  color: #2e332b;
+  max-width: 70ch;
+}
+
+/* Hide horizontal scrollbar on scrollable strips (category nav, tables) */
+.gj-scroll::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+.gj-scroll {
+  scrollbar-width: none;
+}
+
+/* Admin post editor — contenteditable placeholder + minimal prose */
+.gj-editor:empty::before {
+  content: attr(data-placeholder);
+  color: #9ca89f;
+  pointer-events: none;
+}
+.gj-editor:focus {
+  outline: none;
+}
+.gj-editor h2 {
+  font-family: var(--font-lora), Lora, serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #1b4332;
+  margin: 1.2em 0 0.5em;
+}
+.gj-editor h3 {
+  font-family: var(--font-lora), Lora, serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #1b4332;
+  margin: 1em 0 0.4em;
+}
+.gj-editor blockquote {
+  border-left: 4px solid #40916c;
+  background: #eaf1ea;
+  margin: 1em 0;
+  padding: 10px 16px;
+  border-radius: 0 10px 10px 0;
+}
+.gj-editor a {
+  color: #2d6a4f;
+  text-decoration: underline;
+}
+.gj-editor ul {
+  padding-left: 1.4em;
+  list-style: disc;
+}

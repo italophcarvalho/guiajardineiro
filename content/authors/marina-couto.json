@@ -1,0 +1,10 @@
+{
+  "id": "marina",
+  "slug": "marina-couto",
+  "name": "Marina Couto",
+  "firstName": "Marina",
+  "initial": "M",
+  "role": "Editora de Plantas de Interior",
+  "bio": "Bióloga e jardineira urbana há 12 anos. Especialista em plantas de interior, suculentas e iluminação artificial para cultivo. Já matou samambaias suficientes para aprender, na prática, o que realmente funciona dentro de casa.",
+  "specialties": ["Plantas de Interior", "Suculentas", "Iluminação"]
+}
