@@ -130,6 +130,26 @@ export const products: Product[] = [
     price: 28,
     tint: "#E8EDD5",
   },
+  {
+    id: "substrato-suculentas-cactos",
+    name: "Substrato para Suculentas e Cactos 5kg",
+    brand: "VerdeVaso",
+    rating: "4,7",
+    reviews: 980,
+    price: 39,
+    tint: "#DCE8DD",
+    tag: "Melhor geral",
+  },
+  {
+    id: "vaso-drenagem-suculentas-pp",
+    name: "Vaso com Furo de Drenagem 12cm (kit 3)",
+    brand: "PlantePP",
+    rating: "4,5",
+    reviews: 412,
+    price: 34,
+    tint: "#DCE8DD",
+    tag: "Complementar",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
