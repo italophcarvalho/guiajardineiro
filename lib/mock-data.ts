@@ -150,6 +150,26 @@ export const products: Product[] = [
     tint: "#DCE8DD",
     tag: "Complementar",
   },
+  {
+    id: "vaso-autoirrigavel-herbs-pp",
+    name: "Vaso Autoirrigável para Temperos (kit 2)",
+    brand: "PlantePP",
+    rating: "4,6",
+    reviews: 530,
+    price: 59,
+    tint: "#E8EDD5",
+    tag: "Melhor geral",
+  },
+  {
+    id: "kit-mudas-temperos-essenciais",
+    name: "Kit de Mudas de Temperos Essenciais",
+    brand: "HortaViva",
+    rating: "4,4",
+    reviews: 210,
+    price: 49,
+    tint: "#E8EDD5",
+    tag: "Complementar",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
