@@ -114,13 +114,22 @@ NEXT_PUBLIC_AMAZON_TAG=guiajardineiro-20
 # URL base do site (usada em sitemap e OG tags)
 NEXT_PUBLIC_SITE_URL=https://www.guiajardineiro.com.br
 
-# CMS (quando migrar de mock-data para um headless CMS)
-# CONTENTFUL_SPACE_ID=
-# CONTENTFUL_ACCESS_TOKEN=
+# --- Persistência do editor admin em PRODUÇÃO (GitHub Contents API) ---
+# Em dev, o editor grava direto em content/posts/ no disco — estas não são
+# necessárias. Em produção (Vercel), o disco é somente-leitura, então o post
+# é commitado no repositório, o que dispara um novo deploy.
+GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx   # PAT com escopo repo (contents:write)
+GITHUB_REPO=italophcarvalho/guiajardineiro
+GITHUB_BRANCH=main
 
-# Analytics (quando integrar com GA4 ou Plausible)
-# NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+# --- Upload de imagem destacada (Vercel Blob) ---
+# Definido automaticamente ao conectar um Blob store no projeto Vercel.
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_xxxxxxxx
 ```
+
+> Em desenvolvimento, sem `GITHUB_TOKEN` o editor salva em `content/posts/{slug}.mdx`
+> no disco. Sem `BLOB_READ_WRITE_TOKEN` o upload de imagem é desativado (o post
+> é salvo sem a imagem destacada).
 
 ---
 
@@ -161,7 +170,7 @@ featuredProduct: "p7"   # opcional: destaca no sidebar e no sticky CTA mobile
 **3. Usar componentes de conversão no corpo do artigo:**
 
 ```mdx
-<ProductCard productId="p7" />
+<ProductCard id="p7" />
 
 <BestPickBox productId="p7" reason="Melhor relação corte/preço no teste." />
 

@@ -4,9 +4,32 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import type { KeyboardEvent } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { categories, authors, getPostBySlug } from "@/lib/mock-data";
+import {
+  categories,
+  authors,
+  getPostBySlug,
+  getProductById,
+} from "@/lib/mock-data";
 import { slugify } from "@/lib/slug";
 import { Toast } from "@/components/ui/Toast";
+import { ProductPickerModal } from "@/components/admin/ProductPickerModal";
+import type { Product } from "@/lib/types";
+import {
+  proseBlocks,
+  conversionBlocks,
+  type EditorBlock,
+  type Frontmatter,
+  type ProductRole,
+  type ProductBlock,
+  type ComparisonTableBlock,
+  type AlertBoxBlock,
+  type TextBlock,
+  type RawMdxBlock,
+} from "@/lib/mdx-serializer";
+import {
+  domToBlocks,
+  proseBlocksToHtml,
+} from "@/components/admin/editor-dom";
 
 /* ------------------------------------------------------------------ */
 /* Conversion block types                                              */
@@ -14,10 +37,12 @@ import { Toast } from "@/components/ui/Toast";
 
 type BlockKind = "Produto afiliado" | "Tabela comparativa" | "Caixa de destaque";
 
-interface Block {
+/** A conversion block in the editor: display metadata + its serializer form. */
+interface ConvBlock {
   id: number;
   kind: BlockKind;
   label: string;
+  serial: ProductBlock | ComparisonTableBlock | AlertBoxBlock;
 }
 
 const BLOCK_META: Record<
@@ -31,8 +56,48 @@ const BLOCK_META: Record<
 
 type PubState = "rascunho" | "agendar" | "publicar";
 
+const PUB_TO_STATUS: Record<PubState, "draft" | "scheduled" | "published"> = {
+  rascunho: "draft",
+  agendar: "scheduled",
+  publicar: "published",
+};
+
 const META_LIMIT = 160;
 let blockSeq = 0;
+
+/* ------------------------------------------------------------------ */
+/* Map a loaded conversion block → editor ConvBlock (with a label)     */
+/* ------------------------------------------------------------------ */
+
+function toConvBlock(
+  serial: ProductBlock | ComparisonTableBlock | AlertBoxBlock
+): ConvBlock {
+  if (serial.type === "product") {
+    const product = getProductById(serial.data.productId);
+    return {
+      id: ++blockSeq,
+      kind: "Produto afiliado",
+      label: product?.name ?? serial.data.productId,
+      serial,
+    };
+  }
+  if (serial.type === "comparison-table") {
+    return {
+      id: ++blockSeq,
+      kind: "Tabela comparativa",
+      label: serial.data.preset
+        ? `Tabela comparativa (${serial.data.preset})`
+        : "Tabela de comparação",
+      serial,
+    };
+  }
+  return {
+    id: ++blockSeq,
+    kind: "Caixa de destaque",
+    label: serial.data.title || "Caixa de destaque",
+    serial,
+  };
+}
 
 /* ------------------------------------------------------------------ */
 /* Component                                                           */
@@ -50,7 +115,7 @@ export function PostEditor() {
   const [slugManual, setSlugManual] = useState(Boolean(existing));
   const [editingSlug, setEditingSlug] = useState(false);
 
-  const [blocks, setBlocks] = useState<Block[]>([]);
+  const [blocks, setBlocks] = useState<ConvBlock[]>([]);
   const [pubState, setPubState] = useState<PubState>(
     existing?.status === "agendado"
       ? "agendar"
@@ -60,6 +125,7 @@ export function PostEditor() {
           ? "publicar"
           : "rascunho"
   );
+  const [scheduledDate, setScheduledDate] = useState("");
 
   const [category, setCategory] = useState(
     existing?.categoryLabel ?? categories[0].label
@@ -69,12 +135,59 @@ export function PostEditor() {
   const [tagInput, setTagInput] = useState("");
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [metaDesc, setMetaDesc] = useState(existing?.metaDesc ?? "");
 
   const [toast, setToast] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
+  /** Frontmatter loaded from the file — preserved across save (type, excerpt, …). */
+  const loadedFm = useRef<Frontmatter>({});
   const bodyRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  /* ---- load existing post from the API (populates body + blocks) ---- */
+  useEffect(() => {
+    if (!editId) return;
+    let cancelled = false;
+
+    fetch(`/api/posts/${editId}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r)))
+      .then((data: { frontmatter: Frontmatter; blocks: EditorBlock[] }) => {
+        if (cancelled) return;
+        const fm = data.frontmatter ?? {};
+        loadedFm.current = fm;
+
+        if (typeof fm.title === "string") setTitle(fm.title);
+        if (typeof fm.slug === "string") {
+          setSlug(fm.slug);
+          setSlugManual(true);
+        }
+        if (typeof fm.categoryLabel === "string") setCategory(fm.categoryLabel);
+        if (typeof fm.authorName === "string") setAuthor(fm.authorName);
+        if (Array.isArray(fm.tags)) setTags(fm.tags as string[]);
+        if (typeof fm.metaDesc === "string") setMetaDesc(fm.metaDesc);
+        if (typeof fm.image === "string" && fm.image) setImagePreview(fm.image);
+        if (fm.status === "agendado") setPubState("agendar");
+        else if (fm.status === "rascunho") setPubState("rascunho");
+        else if (fm.status === "publicado") setPubState("publicar");
+
+        // Prose → contenteditable HTML; conversion blocks → the block list.
+        const prose = proseBlocks(data.blocks);
+        if (bodyRef.current) {
+          bodyRef.current.innerHTML = proseBlocksToHtml(prose);
+        }
+        setBlocks(conversionBlocks(data.blocks).map(toConvBlock));
+      })
+      .catch(() => {
+        if (!cancelled) setToast("Não foi possível carregar o post.");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [editId]);
 
   /* ---- title → slug sync (until user edits slug manually) ---- */
   function handleTitle(value: string) {
@@ -85,7 +198,7 @@ export function PostEditor() {
   /* ---- revoke object URL on unmount ---- */
   useEffect(() => {
     return () => {
-      if (imagePreview) URL.revokeObjectURL(imagePreview);
+      if (imagePreview?.startsWith("blob:")) URL.revokeObjectURL(imagePreview);
     };
   }, [imagePreview]);
 
@@ -112,15 +225,6 @@ export function PostEditor() {
       },
     },
     {
-      label: "▦",
-      title: "Tabela",
-      onClick: () =>
-        exec(
-          "insertHTML",
-          '<table style="width:100%;border-collapse:collapse;margin:12px 0"><tbody><tr><td style="border:1px solid #E7E3D8;padding:8px">Coluna 1</td><td style="border:1px solid #E7E3D8;padding:8px">Coluna 2</td></tr></tbody></table>'
-        ),
-    },
-    {
       label: "🖼",
       title: "Imagem",
       onClick: () => {
@@ -130,9 +234,32 @@ export function PostEditor() {
     },
   ];
 
-  /* ---- blocks ---- */
-  function addBlock(kind: BlockKind, label: string) {
-    setBlocks((prev) => [...prev, { id: ++blockSeq, kind, label }]);
+  /* ---- conversion blocks ---- */
+  function addProduct(product: Product, role: ProductRole) {
+    setBlocks((prev) => [
+      ...prev,
+      toConvBlock({ type: "product", data: { productId: product.id, role } }),
+    ]);
+    setPickerOpen(false);
+  }
+  function addComparison() {
+    setBlocks((prev) => [
+      ...prev,
+      toConvBlock({ type: "comparison-table", data: { preset: "tesouras" } }),
+    ]);
+  }
+  function addAlert() {
+    setBlocks((prev) => [
+      ...prev,
+      toConvBlock({
+        type: "alert-box",
+        data: {
+          variant: "dica",
+          title: "Dica de especialista",
+          content: "Escreva a dica aqui.",
+        },
+      }),
+    ]);
   }
   function removeBlock(id: number) {
     setBlocks((prev) => prev.filter((b) => b.id !== id));
@@ -156,26 +283,87 @@ export function PostEditor() {
   /* ---- image ---- */
   function handleFile(file: File | undefined) {
     if (!file) return;
-    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    if (imagePreview?.startsWith("blob:")) URL.revokeObjectURL(imagePreview);
+    setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
   }
 
-  /* ---- publish / save → toast → back to /admin ---- */
-  function finishWith(message: string) {
-    setToast(message);
-    setTimeout(() => router.push("/admin"), 1500);
-  }
-  function publish() {
-    finishWith(
-      pubState === "agendar"
-        ? "Post agendado com sucesso!"
-        : pubState === "rascunho"
-          ? "Rascunho salvo."
-          : "Post publicado com sucesso!"
-    );
-  }
-  function saveDraft() {
-    finishWith("Rascunho salvo.");
+  /* ---- save (POST /api/posts) ---- */
+  async function save(state: PubState) {
+    if (saving) return;
+    if (!title.trim()) {
+      setToast("Adicione um título antes de salvar.");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      // Upload the featured image first, if a new one was chosen.
+      let imageUrl =
+        typeof loadedFm.current.image === "string"
+          ? (loadedFm.current.image as string)
+          : undefined;
+      if (imageFile) {
+        const form = new FormData();
+        form.append("file", imageFile);
+        const up = await fetch("/api/upload", { method: "POST", body: form });
+        if (up.ok) {
+          imageUrl = (await up.json()).url;
+        } else if (up.status !== 501) {
+          setToast("Falha ao enviar a imagem; salvando sem ela.");
+        }
+      }
+
+      // Assemble the ordered body: prose (from the editor) then conversion blocks.
+      const prose: (TextBlock | RawMdxBlock)[] = bodyRef.current
+        ? domToBlocks(bodyRef.current)
+        : [];
+      const allBlocks: EditorBlock[] = [...prose, ...blocks.map((b) => b.serial)];
+
+      const frontmatter: Frontmatter = {
+        ...loadedFm.current,
+        title: title.trim(),
+        slug: slug || slugify(title),
+        shortTitle: loadedFm.current.shortTitle ?? title.trim(),
+        excerpt: loadedFm.current.excerpt ?? metaDesc,
+        categoryLabel: category,
+        authorName: author,
+        tags,
+        metaDesc,
+        ...(imageUrl ? { image: imageUrl } : {}),
+      };
+
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          frontmatter,
+          blocks: allBlocks,
+          status: PUB_TO_STATUS[state],
+          scheduledDate: state === "agendar" ? scheduledDate : undefined,
+          overwrite: Boolean(editId),
+        }),
+      });
+
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: "" }));
+        setToast(error || "Falha ao salvar o post.");
+        setSaving(false);
+        return;
+      }
+
+      setToast(
+        state === "agendar"
+          ? "Post agendado com sucesso!"
+          : state === "rascunho"
+            ? "Rascunho salvo."
+            : "Post publicado com sucesso!"
+      );
+      setTimeout(() => router.push("/admin"), 1200);
+    } catch {
+      setToast("Erro de rede ao salvar.");
+      setSaving(false);
+    }
   }
 
   /* ---- derived ---- */
@@ -325,19 +513,19 @@ export function PostEditor() {
 
             <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => addBlock("Produto afiliado", "Novo produto recomendado")}
+                onClick={() => setPickerOpen(true)}
                 className="rounded-[10px] border border-dashed border-[#C8A98F] bg-[#FBF6F1] px-3.5 py-2 font-inter text-[13px] font-semibold text-terracotta transition-colors hover:bg-[#FBEFE6]"
               >
                 + Produto afiliado
               </button>
               <button
-                onClick={() => addBlock("Tabela comparativa", "Tabela de comparação")}
+                onClick={addComparison}
                 className="rounded-[10px] border border-dashed border-[#BBD0C0] bg-[#F4F9F4] px-3.5 py-2 font-inter text-[13px] font-semibold text-green-700 transition-colors hover:bg-[#EAF3EA]"
               >
                 + Tabela comparativa
               </button>
               <button
-                onClick={() => addBlock("Caixa de destaque", "Dica de especialista")}
+                onClick={addAlert}
                 className="rounded-[10px] border border-dashed border-[#BBD0C0] bg-[#F4F9F4] px-3.5 py-2 font-inter text-[13px] font-semibold text-green-700 transition-colors hover:bg-[#EAF3EA]"
               >
                 + Caixa de destaque
@@ -389,6 +577,8 @@ export function PostEditor() {
                 Data de publicação
                 <input
                   type="datetime-local"
+                  value={scheduledDate}
+                  onChange={(e) => setScheduledDate(e.target.value)}
                   className="rounded-[9px] border border-border-3 bg-surface px-2.5 py-2 font-inter text-[13px] text-ink outline-none focus:border-green-700/50"
                 />
               </label>
@@ -400,14 +590,16 @@ export function PostEditor() {
             </div>
 
             <button
-              onClick={publish}
-              className="mt-2 w-full rounded-[11px] bg-terracotta py-3 font-inter text-[14.5px] font-semibold text-white transition-colors hover:bg-terracotta-hover"
+              onClick={() => save(pubState)}
+              disabled={saving}
+              className="mt-2 w-full rounded-[11px] bg-terracotta py-3 font-inter text-[14.5px] font-semibold text-white transition-colors hover:bg-terracotta-hover disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {publishLabel}
+              {saving ? "Salvando..." : publishLabel}
             </button>
             <button
-              onClick={saveDraft}
-              className="mt-2 w-full rounded-[11px] border border-border-3 bg-transparent py-2.5 font-inter text-[13.5px] font-semibold text-[#3A5D45] transition-colors hover:bg-[#F4F1E8]"
+              onClick={() => save("rascunho")}
+              disabled={saving}
+              className="mt-2 w-full rounded-[11px] border border-border-3 bg-transparent py-2.5 font-inter text-[13.5px] font-semibold text-[#3A5D45] transition-colors hover:bg-[#F4F1E8] disabled:cursor-not-allowed disabled:opacity-60"
             >
               Salvar rascunho
             </button>
@@ -552,6 +744,12 @@ export function PostEditor() {
           </div>
         </div>
       </div>
+
+      <ProductPickerModal
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSelect={addProduct}
+      />
 
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
     </div>

@@ -11,6 +11,9 @@
     "new-post": "node scripts/new-post.mjs"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/blob": "^2.4.0",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "next": "^14.2.35",

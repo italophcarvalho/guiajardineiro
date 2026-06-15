@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lora, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const lora = Lora({
@@ -54,7 +55,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${lora.variable} ${inter.variable}`}>
-      <body className="font-inter bg-cream text-ink antialiased">{children}</body>
+      <body className="font-inter bg-cream text-ink antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
