@@ -125,7 +125,17 @@ GITHUB_BRANCH=main
 # --- Upload de imagem destacada (Vercel Blob) ---
 # Definido automaticamente ao conectar um Blob store no projeto Vercel.
 BLOB_READ_WRITE_TOKEN=vercel_blob_rw_xxxxxxxx
+
+# --- Proteção do painel admin (HTTP Basic Auth) ---
+# Se NÃO definidas, o /admin fica aberto (ok em dev). Em produção, defina
+# as duas para exigir login ao acessar /admin e as APIs de escrita.
+ADMIN_USER=admin
+ADMIN_PASSWORD=troque-por-uma-senha-forte
 ```
+
+> **Antes de divulgar o site, defina `ADMIN_USER` e `ADMIN_PASSWORD` no Vercel.**
+> O `middleware.ts` protege `/admin`, `/api/posts` e `/api/upload` com HTTP Basic
+> Auth. Sem essas variáveis, qualquer pessoa com o endereço acessa o painel.
 
 > Em desenvolvimento, sem `GITHUB_TOKEN` o editor salva em `content/posts/{slug}.mdx`
 > no disco. Sem `BLOB_READ_WRITE_TOKEN` o upload de imagem é desativado (o post
