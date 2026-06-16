@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { posts, categories } from "@/lib/mock-data";
+import { categories } from "@/lib/mock-data";
 import type { Post } from "@/lib/types";
 import { PostCard } from "@/components/category/PostCard";
 
@@ -11,7 +11,7 @@ import { PostCard } from "@/components/category/PostCard";
 /* Search logic                                                        */
 /* ------------------------------------------------------------------ */
 
-function searchPosts(query: string): Post[] {
+function searchPosts(posts: Post[], query: string): Post[] {
   const q = query.toLowerCase().trim();
   if (!q) return [];
   return posts.filter(
@@ -27,7 +27,7 @@ function searchPosts(query: string): Post[] {
 /* Component                                                           */
 /* ------------------------------------------------------------------ */
 
-export function SearchPageContent() {
+export function SearchPageContent({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialQuery = searchParams.get("q") ?? "";
@@ -69,7 +69,7 @@ export function SearchPageContent() {
     inputRef.current?.focus();
   }
 
-  const results = searchPosts(query);
+  const results = searchPosts(posts, query);
   const hasQuery = query.trim().length > 0;
 
   return (

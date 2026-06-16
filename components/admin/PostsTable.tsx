@@ -2,23 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { posts } from "@/lib/mock-data";
-import type { PostStatus } from "@/lib/types";
+import type { Post, PostStatus } from "@/lib/types";
 
 /* ------------------------------------------------------------------ */
 /* View model                                                          */
 /* ------------------------------------------------------------------ */
-
-/**
- * A few posts are overridden to non-published states so the status tabs
- * and badges are meaningful in the demo (the mock posts are all published).
- * Matches the statuses shown in the admin prototype.
- */
-const STATUS_OVERRIDE: Record<string, PostStatus> = {
-  "melhores-kits-de-irrigacao-gotejamento": "agendado",
-  "guia-de-adubacao-organica": "rascunho",
-  "hidroponia-caseira-barata": "rascunho",
-};
 
 interface Row {
   slug: string;
@@ -33,22 +21,22 @@ interface Row {
 
 const DASH = "—";
 
-const rows: Row[] = posts.map((p) => {
-  const status = STATUS_OVERRIDE[p.slug] ?? p.status;
-  const isPublished = status === "publicado";
-  const isScheduled = status === "agendado";
+/** Map a Post (from the file-based index) to a table row. */
+function toRow(p: Post): Row {
+  const isPublished = p.status === "publicado";
+  const isScheduled = p.status === "agendado";
   return {
     slug: p.slug,
     title: p.title,
     categoryLabel: p.categoryLabel,
     authorName: p.authorName,
-    status,
+    status: p.status,
     // Published: real metrics. Scheduled: metrics dash, keep date. Draft: all dash.
     views: isPublished ? (p.views ?? 0).toLocaleString("pt-BR") : DASH,
     ctr: isPublished ? p.affiliateCtr ?? DASH : DASH,
     date: isPublished || isScheduled ? p.date : DASH,
   };
-});
+}
 
 /* ------------------------------------------------------------------ */
 /* Status badge config                                                 */
@@ -80,9 +68,10 @@ const TABS: { id: Tab; label: string }[] = [
 /* Component                                                           */
 /* ------------------------------------------------------------------ */
 
-export function PostsTable() {
+export function PostsTable({ posts }: { posts: Post[] }) {
   const [tab, setTab] = useState<Tab>("todos");
 
+  const rows = posts.map(toRow);
   const filtered = tab === "todos" ? rows : rows.filter((r) => r.status === tab);
 
   return (

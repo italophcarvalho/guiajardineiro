@@ -1,20 +1,35 @@
 import Link from "next/link";
 import { PostsTable } from "@/components/admin/PostsTable";
+import { getAllPosts } from "@/lib/posts";
 
 /**
  * Admin — Conteúdo (CMS dashboard).
- * Header + stats strip are static (Server Component); the status tabs and
- * filtered table live in the PostsTable client component.
+ * Reads every post from the file-based index (drafts/scheduled included) and
+ * derives the stats; the status tabs and filtered table live in the PostsTable
+ * client component.
  */
 
-const STATS = [
-  { label: "Total de posts", value: "48", dot: "#1B4332" },
-  { label: "Publicados", value: "39", dot: "#2D6A4F" },
-  { label: "Rascunhos", value: "6", dot: "#B0A99A" },
-  { label: "Agendados", value: "3", dot: "#E8A02C" },
-];
-
 export default function AdminContentPage() {
+  const posts = getAllPosts();
+  const STATS = [
+    { label: "Total de posts", value: String(posts.length), dot: "#1B4332" },
+    {
+      label: "Publicados",
+      value: String(posts.filter((p) => p.status === "publicado").length),
+      dot: "#2D6A4F",
+    },
+    {
+      label: "Rascunhos",
+      value: String(posts.filter((p) => p.status === "rascunho").length),
+      dot: "#B0A99A",
+    },
+    {
+      label: "Agendados",
+      value: String(posts.filter((p) => p.status === "agendado").length),
+      dot: "#E8A02C",
+    },
+  ];
+
   return (
     <div>
       {/* Header */}
@@ -62,7 +77,7 @@ export default function AdminContentPage() {
       </div>
 
       {/* Posts table */}
-      <PostsTable />
+      <PostsTable posts={posts} />
     </div>
   );
 }

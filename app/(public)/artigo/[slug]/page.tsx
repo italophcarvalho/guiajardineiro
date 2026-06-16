@@ -9,8 +9,8 @@ import {
   getAuthorById,
   getCategoryById,
   getProductById,
-  getPostsByCategory,
 } from "@/lib/mock-data";
+import { getPostsByCategory } from "@/lib/posts";
 import { affiliateUrlFor, affiliateLabelFor } from "@/lib/affiliate";
 import { parseRating } from "@/components/conversion/_shared";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";

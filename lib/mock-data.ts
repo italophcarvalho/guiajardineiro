@@ -1,12 +1,12 @@
-/**
- * Guia Jardineiro — mock data
+﻿/**
+ * Guia Jardineiro â€” mock data
  *
  * Ported from the design prototype (`Guia Jardineiro.dc.html`). This is the
  * temporary content source for the scaffold and will be replaced by a headless
  * CMS later. Shapes match `lib/types.ts`.
  */
 
-import type { Author, Category, Post, Product } from "./types";
+import type { Author, Category, Product } from "./types";
 
 /* ------------------------------------------------------------------ */
 /* Categories                                                          */
@@ -19,11 +19,11 @@ export const categories: Category[] = [
     label: "Plantas de Interior",
     tint: "#DCE8DD",
     count: 14,
-    desc: "Espécies, cuidados, vasos e iluminação para cultivar dentro de casa.",
+    desc: "EspÃ©cies, cuidados, vasos e iluminaÃ§Ã£o para cultivar dentro de casa.",
     subs: [
       { id: "suculentas", label: "Suculentas" },
       { id: "tropicais", label: "Folhagens" },
-      { id: "luz", label: "Iluminação" },
+      { id: "luz", label: "IluminaÃ§Ã£o" },
     ],
   },
   {
@@ -32,7 +32,7 @@ export const categories: Category[] = [
     label: "Horta em Casa",
     tint: "#E8EDD5",
     count: 22,
-    desc: "Cultive temperos, hortaliças e legumes mesmo nos menores espaços.",
+    desc: "Cultive temperos, hortaliÃ§as e legumes mesmo nos menores espaÃ§os.",
     subs: [
       { id: "temperos", label: "Temperos" },
       { id: "hidroponia", label: "Hidroponia" },
@@ -48,7 +48,7 @@ export const categories: Category[] = [
     desc: "Testes e comparativos das ferramentas que realmente valem o investimento.",
     subs: [
       { id: "poda", label: "Poda" },
-      { id: "irrigacao", label: "Irrigação" },
+      { id: "irrigacao", label: "IrrigaÃ§Ã£o" },
     ],
   },
   {
@@ -57,16 +57,16 @@ export const categories: Category[] = [
     label: "Paisagismo",
     tint: "#D6E4DC",
     count: 9,
-    desc: "Ideias e projetos para jardins, canteiros e áreas externas.",
+    desc: "Ideias e projetos para jardins, canteiros e Ã¡reas externas.",
     subs: [],
   },
   {
     id: "pragas",
     slug: "pragas-e-doencas",
-    label: "Pragas e Doenças",
+    label: "Pragas e DoenÃ§as",
     tint: "#EADFD2",
     count: 11,
-    desc: "Diagnóstico e combate natural às pragas e doenças mais comuns.",
+    desc: "DiagnÃ³stico e combate natural Ã s pragas e doenÃ§as mais comuns.",
     subs: [],
   },
 ];
@@ -83,8 +83,8 @@ export const authors: Author[] = [
     firstName: "Marina",
     initial: "M",
     role: "Editora de Plantas de Interior",
-    bio: "Bióloga e jardineira urbana há 12 anos. Especialista em plantas de interior, suculentas e iluminação artificial para cultivo. Já matou samambaias suficientes para aprender, na prática, o que realmente funciona dentro de casa.",
-    specialties: ["Plantas de Interior", "Suculentas", "Iluminação"],
+    bio: "BiÃ³loga e jardineira urbana hÃ¡ 12 anos. Especialista em plantas de interior, suculentas e iluminaÃ§Ã£o artificial para cultivo. JÃ¡ matou samambaias suficientes para aprender, na prÃ¡tica, o que realmente funciona dentro de casa.",
+    specialties: ["Plantas de Interior", "Suculentas", "IluminaÃ§Ã£o"],
   },
   {
     id: "rafael",
@@ -92,9 +92,9 @@ export const authors: Author[] = [
     name: "Rafael Tavares",
     firstName: "Rafael",
     initial: "R",
-    role: "Engenheiro Agrônomo",
-    bio: "Engenheiro agrônomo formado pela ESALQ, com foco em horticultura doméstica e ferramentas de jardim. Testa cada produto em condições reais — chuva, sol e raiz — antes de recomendar qualquer coisa.",
-    specialties: ["Ferramentas", "Horta em Casa", "Adubação"],
+    role: "Engenheiro AgrÃ´nomo",
+    bio: "Engenheiro agrÃ´nomo formado pela ESALQ, com foco em horticultura domÃ©stica e ferramentas de jardim. Testa cada produto em condiÃ§Ãµes reais â€” chuva, sol e raiz â€” antes de recomendar qualquer coisa.",
+    specialties: ["Ferramentas", "Horta em Casa", "AdubaÃ§Ã£o"],
   },
 ];
 
@@ -115,16 +115,16 @@ export const products: Product[] = [
   },
   {
     id: "p2",
-    name: "Kit Irrigação Gotejamento 25m",
+    name: "Kit IrrigaÃ§Ã£o Gotejamento 25m",
     brand: "AquaVerde",
     rating: "4,6",
     price: 149,
     tint: "#D6E4DC",
-    tag: "Custo-benefício",
+    tag: "Custo-benefÃ­cio",
   },
   {
     id: "p6",
-    name: "Adubo Orgânico Húmus 5kg",
+    name: "Adubo OrgÃ¢nico HÃºmus 5kg",
     brand: "NutriSolo",
     rating: "4,9",
     price: 28,
@@ -152,7 +152,7 @@ export const products: Product[] = [
   },
   {
     id: "vaso-autoirrigavel-herbs-pp",
-    name: "Vaso Autoirrigável para Temperos (kit 2)",
+    name: "Vaso AutoirrigÃ¡vel para Temperos (kit 2)",
     brand: "PlantePP",
     rating: "4,6",
     reviews: 530,
@@ -169,237 +169,6 @@ export const products: Product[] = [
     price: 49,
     tint: "#E8EDD5",
     tag: "Complementar",
-  },
-];
-
-/* ------------------------------------------------------------------ */
-/* Posts                                                               */
-/* ------------------------------------------------------------------ */
-
-export const posts: Post[] = [
-  {
-    id: "tesouras",
-    slug: "melhores-tesouras-de-poda-2026",
-    title: "As 7 melhores tesouras de poda de 2026",
-    shortTitle: "Tesouras de poda",
-    excerpt:
-      "Testamos 19 modelos por 3 meses para encontrar as tesouras que cortam limpo e duram anos.",
-    type: "Comparativo",
-    categoryId: "ferramentas",
-    categoryLabel: "Ferramentas",
-    subtopicId: "poda",
-    authorId: "rafael",
-    authorName: "Rafael Tavares",
-    date: "8 jun 2026",
-    publishedAt: "2026-06-08",
-    read: "12 min",
-    status: "publicado",
-    tint: "#E5E2D9",
-    metaDesc:
-      "Testamos 19 tesouras de poda por 3 meses. Veja as 7 melhores de 2026, com prós, contras e a melhor escolha para cada perfil.",
-    tags: ["tesoura de poda", "ferramentas", "poda"],
-    citedProductIds: ["p1", "p2", "p6"],
-    views: 18420,
-    affiliateCtr: "4,2%",
-  },
-  {
-    id: "horta-varanda",
-    slug: "horta-de-temperos-na-varanda",
-    title: "Como montar uma horta de temperos na varanda",
-    shortTitle: "Horta de temperos",
-    excerpt:
-      "Manjericão, alecrim e cebolinha em qualquer espaço — passo a passo do vaso à colheita.",
-    type: "Guia",
-    categoryId: "horta",
-    categoryLabel: "Horta em Casa",
-    subtopicId: "temperos",
-    authorId: "marina",
-    authorName: "Marina Couto",
-    date: "6 jun 2026",
-    publishedAt: "2026-06-06",
-    read: "9 min",
-    status: "publicado",
-    tint: "#E8EDD5",
-    metaDesc:
-      "Passo a passo para montar uma horta de temperos na varanda: vasos, substrato, luz e colheita de manjericão, alecrim e cebolinha.",
-    tags: ["horta", "temperos", "varanda"],
-    citedProductIds: ["p6"],
-    views: 12030,
-    affiliateCtr: "2,8%",
-  },
-  {
-    id: "suculentas",
-    slug: "suculentas-para-iniciantes",
-    title: "Suculentas para iniciantes: 12 espécies que não morrem",
-    shortTitle: "Suculentas para iniciantes",
-    excerpt:
-      "As variedades mais resistentes para quem está começando — e os 3 erros que mais matam suculentas.",
-    type: "Guia",
-    categoryId: "interior",
-    categoryLabel: "Plantas de Interior",
-    subtopicId: "suculentas",
-    authorId: "marina",
-    authorName: "Marina Couto",
-    date: "4 jun 2026",
-    publishedAt: "2026-06-04",
-    read: "7 min",
-    status: "publicado",
-    tint: "#DCE8DD",
-    metaDesc:
-      "12 suculentas resistentes para iniciantes e os 3 erros que mais matam essas plantas. Guia prático para começar sem frustração.",
-    tags: ["suculentas", "plantas de interior", "iniciantes"],
-    citedProductIds: [],
-    views: 22890,
-    affiliateCtr: "1,9%",
-  },
-  {
-    id: "irrigacao",
-    slug: "melhores-kits-de-irrigacao-gotejamento",
-    title: "Os 5 melhores kits de irrigação por gotejamento",
-    shortTitle: "Kits de irrigação",
-    excerpt:
-      "Economize água e nunca mais esqueça de regar. Comparamos custo, cobertura e instalação.",
-    type: "Comparativo",
-    categoryId: "ferramentas",
-    categoryLabel: "Ferramentas",
-    subtopicId: "irrigacao",
-    authorId: "rafael",
-    authorName: "Rafael Tavares",
-    date: "2 jun 2026",
-    publishedAt: "2026-06-02",
-    read: "10 min",
-    status: "publicado",
-    tint: "#E5E2D9",
-    metaDesc:
-      "Comparamos 5 kits de irrigação por gotejamento por custo, cobertura e instalação. Veja qual economiza mais água sem complicação.",
-    tags: ["irrigação", "gotejamento", "ferramentas"],
-    citedProductIds: ["p2"],
-    views: 9870,
-    affiliateCtr: "5,1%",
-  },
-  {
-    id: "adubacao",
-    slug: "guia-de-adubacao-organica",
-    title: "Guia completo de adubação orgânica",
-    shortTitle: "Adubação orgânica",
-    excerpt:
-      "NPK, húmus, bokashi e compostagem caseira explicados sem complicação.",
-    type: "Guia",
-    categoryId: "horta",
-    categoryLabel: "Horta em Casa",
-    subtopicId: "tomate",
-    authorId: "rafael",
-    authorName: "Rafael Tavares",
-    date: "30 mai 2026",
-    publishedAt: "2026-05-30",
-    read: "14 min",
-    status: "publicado",
-    tint: "#E8EDD5",
-    metaDesc:
-      "NPK, húmus, bokashi e compostagem caseira explicados de forma simples. O guia completo de adubação orgânica para a sua horta.",
-    tags: ["adubação", "orgânico", "compostagem"],
-    citedProductIds: ["p6"],
-    views: 15640,
-    affiliateCtr: "3,4%",
-  },
-  {
-    id: "luz",
-    slug: "melhores-luzes-de-cultivo",
-    title: "Iluminação para plantas: as melhores luzes de cultivo",
-    shortTitle: "Luzes de cultivo",
-    excerpt:
-      "Full spectrum, PAR e consumo — descubra qual grow light combina com as suas plantas.",
-    type: "Comparativo",
-    categoryId: "interior",
-    categoryLabel: "Plantas de Interior",
-    subtopicId: "luz",
-    authorId: "marina",
-    authorName: "Marina Couto",
-    date: "28 mai 2026",
-    publishedAt: "2026-05-28",
-    read: "11 min",
-    status: "publicado",
-    tint: "#DCE8DD",
-    metaDesc:
-      "Full spectrum, PAR e consumo: comparamos as melhores luzes de cultivo (grow lights) para plantas de interior em 2026.",
-    tags: ["iluminação", "grow light", "plantas de interior"],
-    citedProductIds: [],
-    views: 8120,
-    affiliateCtr: "4,7%",
-  },
-  {
-    id: "pragas-naturais",
-    slug: "combate-natural-a-pragas",
-    title: "Combate natural a pragas: 8 receitas caseiras",
-    shortTitle: "Combate natural a pragas",
-    excerpt:
-      "Calda de fumo, óleo de neem e sabão — o que realmente funciona contra cochonilha e pulgão.",
-    type: "Guia",
-    categoryId: "pragas",
-    categoryLabel: "Pragas e Doenças",
-    authorId: "marina",
-    authorName: "Marina Couto",
-    date: "25 mai 2026",
-    publishedAt: "2026-05-25",
-    read: "8 min",
-    status: "publicado",
-    tint: "#EADFD2",
-    metaDesc:
-      "8 receitas caseiras contra pragas: calda de fumo, óleo de neem e sabão. O que funciona de verdade contra cochonilha e pulgão.",
-    tags: ["pragas", "neem", "controle natural"],
-    citedProductIds: [],
-    views: 11250,
-    affiliateCtr: "1,2%",
-  },
-  {
-    id: "vasos",
-    slug: "melhores-vasos-autoirrigaveis",
-    title: "Os melhores vasos autoirrigáveis testados",
-    shortTitle: "Vasos autoirrigáveis",
-    excerpt:
-      "Reservatório, drenagem e design: 6 vasos que facilitam a vida de quem viaja.",
-    type: "Comparativo",
-    categoryId: "interior",
-    categoryLabel: "Plantas de Interior",
-    subtopicId: "tropicais",
-    authorId: "marina",
-    authorName: "Marina Couto",
-    date: "22 mai 2026",
-    publishedAt: "2026-05-22",
-    read: "6 min",
-    status: "publicado",
-    tint: "#DCE8DD",
-    metaDesc:
-      "Testamos 6 vasos autoirrigáveis por reservatório, drenagem e design. Os melhores para quem viaja e esquece de regar.",
-    tags: ["vasos", "autoirrigável", "plantas de interior"],
-    citedProductIds: [],
-    views: 7430,
-    affiliateCtr: "3,9%",
-  },
-  {
-    id: "hidroponia",
-    slug: "hidroponia-caseira-barata",
-    title: "Hidroponia caseira: comece com menos de R$ 200",
-    shortTitle: "Hidroponia caseira",
-    excerpt:
-      "Sistema NFT simples para alface e folhosas dentro de um apartamento.",
-    type: "Guia",
-    categoryId: "horta",
-    categoryLabel: "Horta em Casa",
-    subtopicId: "hidroponia",
-    authorId: "rafael",
-    authorName: "Rafael Tavares",
-    date: "19 mai 2026",
-    publishedAt: "2026-05-19",
-    read: "13 min",
-    status: "publicado",
-    tint: "#E8EDD5",
-    metaDesc:
-      "Monte um sistema de hidroponia caseira (NFT) para alface e folhosas com menos de R$ 200, mesmo em apartamento.",
-    tags: ["hidroponia", "NFT", "horta"],
-    citedProductIds: [],
-    views: 6980,
-    affiliateCtr: "2,1%",
   },
 ];
 
@@ -431,11 +200,11 @@ export const tesourasRanking: RankingEntry[] = [
     price: "89",
     bestFor: "uso geral em roseiras e arbustos",
     pros: [
-      "Corte limpo até 25 mm",
-      "Cabo ergonômico antiderrapante",
-      "Peças de reposição fáceis de achar",
+      "Corte limpo atÃ© 25 mm",
+      "Cabo ergonÃ´mico antiderrapante",
+      "PeÃ§as de reposiÃ§Ã£o fÃ¡ceis de achar",
     ],
-    cons: ["Mola um pouco rígida no início"],
+    cons: ["Mola um pouco rÃ­gida no inÃ­cio"],
   },
   {
     rank: 2,
@@ -445,9 +214,9 @@ export const tesourasRanking: RankingEntry[] = [
     rating: "4,5",
     reviews: "870",
     price: "52",
-    bestFor: "mãos pequenas e podas delicadas",
-    pros: ["Leve e compacta", "Excelente custo-benefício", "Trava de uma mão"],
-    cons: ["Não corta galhos grossos"],
+    bestFor: "mÃ£os pequenas e podas delicadas",
+    pros: ["Leve e compacta", "Excelente custo-benefÃ­cio", "Trava de uma mÃ£o"],
+    cons: ["NÃ£o corta galhos grossos"],
   },
   {
     rank: 3,
@@ -457,21 +226,21 @@ export const tesourasRanking: RankingEntry[] = [
     rating: "4,4",
     reviews: "1.210",
     price: "118",
-    bestFor: "galhos lenhosos de até 32 mm",
-    pros: ["Muito potente", "Durabilidade alta", "Lâmina substituível"],
+    bestFor: "galhos lenhosos de atÃ© 32 mm",
+    pros: ["Muito potente", "Durabilidade alta", "LÃ¢mina substituÃ­vel"],
     cons: ["Pesada para uso longo", "Esmaga hastes verdes"],
   },
   {
     rank: 4,
     anchor: "rank-4",
     name: "EcoSnip Pro",
-    badge: "Sustentável",
+    badge: "SustentÃ¡vel",
     rating: "4,3",
     reviews: "540",
     price: "69",
     bestFor: "quem prioriza material reciclado",
-    pros: ["Cabos de plástico reciclado", "Corte preciso", "Boa garantia"],
-    cons: ["Lâmina exige afiação frequente"],
+    pros: ["Cabos de plÃ¡stico reciclado", "Corte preciso", "Boa garantia"],
+    cons: ["LÃ¢mina exige afiaÃ§Ã£o frequente"],
   },
   {
     rank: 5,
@@ -481,8 +250,8 @@ export const tesourasRanking: RankingEntry[] = [
     rating: "4,1",
     reviews: "3.020",
     price: "29",
-    bestFor: "iniciantes e uso esporádico",
-    pros: ["Preço imbatível", "Leve", "Ótima para começar"],
+    bestFor: "iniciantes e uso esporÃ¡dico",
+    pros: ["PreÃ§o imbatÃ­vel", "Leve", "Ã“tima para comeÃ§ar"],
     cons: ["Durabilidade limitada", "Trava simples"],
   },
 ];
@@ -508,24 +277,24 @@ export interface LegalDoc {
 export const legalDocs: Record<LegalDocKey, LegalDoc> = {
   privacy: {
     key: "privacy",
-    title: "Política de Privacidade",
+    title: "PolÃ­tica de Privacidade",
     updated: "1 jun 2026",
     sections: [
       {
         h: "Quais dados coletamos",
-        p: "Coletamos apenas o necessário: o e-mail que você fornece ao assinar a newsletter ou enviar mensagens pelo formulário de contato, além de dados de navegação anônimos (páginas visitadas, dispositivo e origem do acesso) para entender o que é útil para você.",
+        p: "Coletamos apenas o necessÃ¡rio: o e-mail que vocÃª fornece ao assinar a newsletter ou enviar mensagens pelo formulÃ¡rio de contato, alÃ©m de dados de navegaÃ§Ã£o anÃ´nimos (pÃ¡ginas visitadas, dispositivo e origem do acesso) para entender o que Ã© Ãºtil para vocÃª.",
       },
       {
         h: "Como usamos seus dados",
-        p: "Usamos seu e-mail exclusivamente para enviar conteúdos que você pediu e responder suas mensagens. Dados de navegação são agregados e usados apenas para melhorar o site. Nunca vendemos seus dados a terceiros.",
+        p: "Usamos seu e-mail exclusivamente para enviar conteÃºdos que vocÃª pediu e responder suas mensagens. Dados de navegaÃ§Ã£o sÃ£o agregados e usados apenas para melhorar o site. Nunca vendemos seus dados a terceiros.",
       },
       {
         h: "Seus direitos (LGPD)",
-        p: "Conforme a Lei Geral de Proteção de Dados, você pode solicitar acesso, correção ou exclusão dos seus dados a qualquer momento, além de cancelar a inscrição na newsletter com um clique. Basta escrever para privacidade@guiajardineiro.com.br.",
+        p: "Conforme a Lei Geral de ProteÃ§Ã£o de Dados, vocÃª pode solicitar acesso, correÃ§Ã£o ou exclusÃ£o dos seus dados a qualquer momento, alÃ©m de cancelar a inscriÃ§Ã£o na newsletter com um clique. Basta escrever para privacidade@guiajardineiro.com.br.",
       },
       {
         h: "Cookies e terceiros",
-        p: "Utilizamos cookies para funcionamento e medição de audiência. Parceiros de afiliados podem registrar cliques para atribuir comissões. Veja detalhes na nossa Política de Cookies.",
+        p: "Utilizamos cookies para funcionamento e mediÃ§Ã£o de audiÃªncia. Parceiros de afiliados podem registrar cliques para atribuir comissÃµes. Veja detalhes na nossa PolÃ­tica de Cookies.",
       },
     ],
   },
@@ -535,62 +304,62 @@ export const legalDocs: Record<LegalDocKey, LegalDoc> = {
     updated: "1 jun 2026",
     sections: [
       {
-        h: "Aceitação dos termos",
-        p: "Ao acessar o Guia Jardineiro, você concorda com estes Termos de Uso. Se não concordar com algum ponto, pedimos que não utilize o site.",
+        h: "AceitaÃ§Ã£o dos termos",
+        p: "Ao acessar o Guia Jardineiro, vocÃª concorda com estes Termos de Uso. Se nÃ£o concordar com algum ponto, pedimos que nÃ£o utilize o site.",
       },
       {
-        h: "Natureza do conteúdo",
-        p: "Nosso conteúdo tem caráter informativo e reflete a opinião editorial baseada em testes e pesquisa. Não substitui orientação técnica profissional para casos específicos de cultivo, pragas ou uso de produtos químicos.",
+        h: "Natureza do conteÃºdo",
+        p: "Nosso conteÃºdo tem carÃ¡ter informativo e reflete a opiniÃ£o editorial baseada em testes e pesquisa. NÃ£o substitui orientaÃ§Ã£o tÃ©cnica profissional para casos especÃ­ficos de cultivo, pragas ou uso de produtos quÃ­micos.",
       },
       {
         h: "Propriedade intelectual",
-        p: "Textos, fotos e materiais originais publicados aqui são protegidos por direitos autorais. A reprodução é permitida apenas com crédito e link para a página original.",
+        p: "Textos, fotos e materiais originais publicados aqui sÃ£o protegidos por direitos autorais. A reproduÃ§Ã£o Ã© permitida apenas com crÃ©dito e link para a pÃ¡gina original.",
       },
       {
-        h: "Limitação de responsabilidade",
-        p: "Fazemos o possível para manter as informações corretas e atualizadas, mas não nos responsabilizamos por decisões de compra ou cultivo tomadas com base no conteúdo. Preços e disponibilidade nas lojas parceiras podem mudar sem aviso.",
+        h: "LimitaÃ§Ã£o de responsabilidade",
+        p: "Fazemos o possÃ­vel para manter as informaÃ§Ãµes corretas e atualizadas, mas nÃ£o nos responsabilizamos por decisÃµes de compra ou cultivo tomadas com base no conteÃºdo. PreÃ§os e disponibilidade nas lojas parceiras podem mudar sem aviso.",
       },
     ],
   },
   cookies: {
     key: "cookies",
-    title: "Política de Cookies",
+    title: "PolÃ­tica de Cookies",
     updated: "1 jun 2026",
     sections: [
       {
-        h: "O que são cookies",
-        p: "Cookies são pequenos arquivos que o site guarda no seu navegador para lembrar preferências e medir o uso das páginas.",
+        h: "O que sÃ£o cookies",
+        p: "Cookies sÃ£o pequenos arquivos que o site guarda no seu navegador para lembrar preferÃªncias e medir o uso das pÃ¡ginas.",
       },
       {
         h: "Cookies que usamos",
-        p: "Usamos cookies essenciais (para o site funcionar), de análise (audiência anônima) e de afiliados, que registram quando você clica em um link de produto para que a comissão seja corretamente atribuída.",
+        p: "Usamos cookies essenciais (para o site funcionar), de anÃ¡lise (audiÃªncia anÃ´nima) e de afiliados, que registram quando vocÃª clica em um link de produto para que a comissÃ£o seja corretamente atribuÃ­da.",
       },
       {
         h: "Como gerenciar",
-        p: "Você pode bloquear ou apagar cookies nas configurações do seu navegador a qualquer momento. Lembre-se de que desativar alguns cookies pode afetar funcionalidades do site.",
+        p: "VocÃª pode bloquear ou apagar cookies nas configuraÃ§Ãµes do seu navegador a qualquer momento. Lembre-se de que desativar alguns cookies pode afetar funcionalidades do site.",
       },
     ],
   },
   affiliate: {
     key: "affiliate",
-    title: "Divulgação de Links de Afiliados",
+    title: "DivulgaÃ§Ã£o de Links de Afiliados",
     updated: "1 jun 2026",
     sections: [
       {
-        h: "Divulgação (modelo FTC / LGPD)",
-        p: "Em conformidade com as diretrizes da FTC e a legislação brasileira, informamos de forma clara: o Guia Jardineiro contém links de afiliados. Quando você compra através deles, podemos receber uma comissão, sem qualquer custo adicional para você.",
+        h: "DivulgaÃ§Ã£o (modelo FTC / LGPD)",
+        p: "Em conformidade com as diretrizes da FTC e a legislaÃ§Ã£o brasileira, informamos de forma clara: o Guia Jardineiro contÃ©m links de afiliados. Quando vocÃª compra atravÃ©s deles, podemos receber uma comissÃ£o, sem qualquer custo adicional para vocÃª.",
       },
       {
         h: "Programa de Associados da Amazon",
-        p: "Participamos do Programa de Associados da Amazon, um programa de publicidade que nos permite ganhar comissões por meio de links para o site da Amazon e produtos qualificados.",
+        p: "Participamos do Programa de Associados da Amazon, um programa de publicidade que nos permite ganhar comissÃµes por meio de links para o site da Amazon e produtos qualificados.",
       },
       {
-        h: "Nossa independência",
-        p: "As comissões ajudam a manter o site e a financiar novos testes, mas nunca influenciam nossa opinião. As recomendações e posições nos rankings são definidas exclusivamente pela nossa avaliação editorial independente.",
+        h: "Nossa independÃªncia",
+        p: "As comissÃµes ajudam a manter o site e a financiar novos testes, mas nunca influenciam nossa opiniÃ£o. As recomendaÃ§Ãµes e posiÃ§Ãµes nos rankings sÃ£o definidas exclusivamente pela nossa avaliaÃ§Ã£o editorial independente.",
       },
       {
-        h: "Identificação dos links",
-        p: "Sempre que possível, sinalizamos os links e botões de compra como recomendações comerciais. Em caso de dúvida, escreva para contato@guiajardineiro.com.br.",
+        h: "IdentificaÃ§Ã£o dos links",
+        p: "Sempre que possÃ­vel, sinalizamos os links e botÃµes de compra como recomendaÃ§Ãµes comerciais. Em caso de dÃºvida, escreva para contato@guiajardineiro.com.br.",
       },
     ],
   },
@@ -600,8 +369,6 @@ export const legalDocs: Record<LegalDocKey, LegalDoc> = {
 /* Lookup helpers                                                      */
 /* ------------------------------------------------------------------ */
 
-export const getPostBySlug = (slug: string) =>
-  posts.find((p) => p.slug === slug);
 export const getCategoryById = (id: string) =>
   categories.find((c) => c.id === id);
 export const getCategoryBySlug = (slug: string) =>
@@ -611,7 +378,3 @@ export const getAuthorBySlug = (slug: string) =>
   authors.find((a) => a.slug === slug);
 export const getProductById = (id: string) =>
   products.find((p) => p.id === id);
-export const getPostsByCategory = (categoryId: string) =>
-  posts.filter((p) => p.categoryId === categoryId);
-export const getPostsByAuthor = (authorId: string) =>
-  posts.filter((p) => p.authorId === authorId);

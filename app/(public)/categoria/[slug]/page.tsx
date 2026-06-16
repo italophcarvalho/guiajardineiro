@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 
 import {
   categories,
-  getPostsByCategory,
   getCategoryBySlug,
   getProductById,
 } from "@/lib/mock-data";
+import { getPostsByCategory } from "@/lib/posts";
 import { affiliateUrlFor, affiliateLabelFor } from "@/lib/affiliate";
 import { parseRating } from "@/components/conversion/_shared";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -103,7 +103,7 @@ export default function CategoryPage({
               {cat.desc}
             </p>
             <p className="mt-3 text-[13.5px] font-semibold text-green-700">
-              {cat.count} artigos
+              {catPosts.length} artigo{catPosts.length !== 1 && "s"}
             </p>
           </div>
         </div>

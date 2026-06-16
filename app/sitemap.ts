@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { posts, categories, authors } from "@/lib/mock-data";
+import { categories, authors } from "@/lib/mock-data";
+import { getPublishedPosts } from "@/lib/posts";
 
 const SITE_URL = "https://www.guiajardineiro.com.br";
 
@@ -51,14 +52,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  const postPages: MetadataRoute.Sitemap = posts
-    .filter((p) => p.status === "publicado")
-    .map((p) => ({
-      url: `${SITE_URL}/artigo/${p.slug}`,
-      lastModified: p.publishedAt ? new Date(p.publishedAt) : new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.9,
-    }));
+  const postPages: MetadataRoute.Sitemap = getPublishedPosts().map((p) => ({
+    url: `${SITE_URL}/artigo/${p.slug}`,
+    lastModified: p.publishedAt ? new Date(p.publishedAt) : new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  }));
 
   return [...staticPages, ...categoryPages, ...authorPages, ...postPages];
 }

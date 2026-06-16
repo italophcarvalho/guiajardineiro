@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { posts, categories } from "@/lib/mock-data";
+import { categories } from "@/lib/mock-data";
+import { getPublishedPosts, getPublishedCountByCategory } from "@/lib/posts";
 import { HeroSearch } from "@/components/home/HeroSearch";
 import { NewsletterInline } from "@/components/conversion/NewsletterInline";
 
@@ -29,18 +30,21 @@ export const metadata: Metadata = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Data slices                                                         */
-/* ------------------------------------------------------------------ */
-
-const mostRead = posts.slice(0, 4);
-const comparativos = posts.filter((p) => p.type === "Comparativo").slice(0, 3);
-const latestPosts = posts.slice(0, 6);
-
-/* ------------------------------------------------------------------ */
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
 
 export default function HomePage() {
+  const published = getPublishedPosts();
+  const countByCategory = getPublishedCountByCategory();
+
+  const mostRead = [...published]
+    .sort((a, b) => (b.views ?? 0) - (a.views ?? 0))
+    .slice(0, 4);
+  const comparativos = published
+    .filter((p) => p.type === "Comparativo")
+    .slice(0, 3);
+  const latestPosts = published.slice(0, 6);
+
   return (
     <>
       {/* ============================================================
@@ -182,7 +186,7 @@ export default function HomePage() {
                 </div>
                 <div className="mt-1 flex items-center justify-between">
                   <span className="text-[12.5px] text-muted">
-                    {cat.count} artigos
+                    {countByCategory[cat.id] ?? 0} artigos
                   </span>
                   <span className="text-[13px] font-bold text-green-700">
                     →

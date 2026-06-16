@@ -4,12 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import type { KeyboardEvent } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  categories,
-  authors,
-  getPostBySlug,
-  getProductById,
-} from "@/lib/mock-data";
+import { categories, authors, getProductById } from "@/lib/mock-data";
 import { slugify } from "@/lib/slug";
 import { Toast } from "@/components/ui/Toast";
 import { ProductPickerModal } from "@/components/admin/ProductPickerModal";
@@ -107,36 +102,27 @@ export function PostEditor() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const editId = searchParams.get("id");
-  const existing = editId ? getPostBySlug(editId) : undefined;
 
   /* ---- state ---- */
-  const [title, setTitle] = useState(existing?.title ?? "");
-  const [slug, setSlug] = useState(existing?.slug ?? "");
-  const [slugManual, setSlugManual] = useState(Boolean(existing));
+  // For an existing post, everything is populated by the API fetch below; the
+  // initial values here are the "new post" defaults.
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [slugManual, setSlugManual] = useState(Boolean(editId));
   const [editingSlug, setEditingSlug] = useState(false);
 
   const [blocks, setBlocks] = useState<ConvBlock[]>([]);
-  const [pubState, setPubState] = useState<PubState>(
-    existing?.status === "agendado"
-      ? "agendar"
-      : existing?.status === "rascunho"
-        ? "rascunho"
-        : existing
-          ? "publicar"
-          : "rascunho"
-  );
+  const [pubState, setPubState] = useState<PubState>("rascunho");
   const [scheduledDate, setScheduledDate] = useState("");
 
-  const [category, setCategory] = useState(
-    existing?.categoryLabel ?? categories[0].label
-  );
-  const [author, setAuthor] = useState(existing?.authorName ?? authors[0].name);
-  const [tags, setTags] = useState<string[]>(existing?.tags ?? []);
+  const [category, setCategory] = useState(categories[0].label);
+  const [author, setAuthor] = useState(authors[0].name);
+  const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [metaDesc, setMetaDesc] = useState(existing?.metaDesc ?? "");
+  const [metaDesc, setMetaDesc] = useState("");
 
   const [toast, setToast] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);

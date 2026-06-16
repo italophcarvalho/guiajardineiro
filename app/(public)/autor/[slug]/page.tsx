@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { authors, getAuthorBySlug, getPostsByAuthor } from "@/lib/mock-data";
+import { authors, getAuthorBySlug } from "@/lib/mock-data";
+import { getPostsByAuthor } from "@/lib/posts";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { AuthorPostFilter } from "@/components/author/AuthorPostFilter";
 
