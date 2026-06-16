@@ -18,11 +18,13 @@ export const config = {
 };
 
 function unauthorized() {
-  return new NextResponse("Autenticação necessária.", {
+  // NOTE: o valor do header WWW-Authenticate precisa ser ASCII puro — qualquer
+  // caractere acentuado/traço faz o navegador ignorar o header e não abrir o
+  // prompt de login. Por isso o realm aqui é só ASCII.
+  return new NextResponse("Autenticacao necessaria.", {
     status: 401,
     headers: {
-      "WWW-Authenticate":
-        'Basic realm="Guia Jardineiro — Admin", charset="UTF-8"',
+      "WWW-Authenticate": 'Basic realm="Guia Jardineiro Admin"',
     },
   });
 }
